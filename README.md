@@ -1,5 +1,3 @@
 # Captcha Solver
 
-Open GitHub Pages URL and pass ?url=IMAGE_URL
-
-License: MIT
+Open the GitHub Pages URL and pass ?url=IMAGE_URL to test.
