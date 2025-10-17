@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head><title>Sample Page</title></head>
+<head>
+    <title>Sample Page</title>
+</head>
 <body>
 <script>
 const params = new URLSearchParams(window.location.search);
-const imageUrl = params.get('url') || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA...';
+const imageUrl = params.get('url') || 'https://example.com/sample.png';
 console.log("Using image URL:", imageUrl);
 </script>
 </body>
