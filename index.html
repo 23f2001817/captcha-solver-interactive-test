@@ -1,19 +1,72 @@
+
 <!DOCTYPE html>
-<html>
+<html lang='en'>
 <head>
+    <meta charset='UTF-8'>
     <title>Captcha Solver</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #eef2fb; padding: 40px; }
+        .container { background: #fff; padding: 2rem; max-width: 420px; margin: auto; border-radius: 1rem; box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+        #captcha-img { max-width:100%; max-height:100px; border-radius:6px; display:none }
+        #loading { color:#666; }
+        #error-message { color:#c00; margin-top:1em; display:none; }
+        #solved-text { font-weight: bold; font-size:1.15em; color: #178833; margin:1em 0 0.5em; }
+        .url { word-break: break-all; font-size: 0.9em; margin-top: .6em; }
+    </style>
 </head>
 <body>
+  <div class='container'>
     <h1>Captcha Solver</h1>
-    <img id="captcha-img" src="" alt="Captcha" />
-    <p id="solved-text"></p>
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const imageUrl = params.get('url') || 'https://example.com/sample.png';
-        document.getElementById("captcha-img").src = imageUrl;
-        // Simulated solved text
-        document.getElementById("solved-text").textContent = "Solved: [simulated text]";
-        console.log("Captcha image URL:", imageUrl);
-    </script>
+    <div class="url">Image URL: <span id="current-url"></span></div>
+    <div id='loading'>Loading captcha...</div>
+    <img id="captcha-img" alt="Captcha" src="" />
+    <div id='error-message'></div>
+    <p id='solved-text'>Ready to process captcha...</p>
+  </div>
+  <script>
+    const fallbackImages = ['https://via.placeholder.com/300x100/0066cc/ffffff?text=SAMPLE+CAPTCHA', 'https://via.placeholder.com/300x100/0066cc/ffffff?text=SAMPLE+CAPTCHA', 'https://via.placeholder.com/280x80/ff6b35/ffffff?text=TEST+123', 'https://via.placeholder.com/320x90/28a745/ffffff?text=DEMO+ABC'];
+    const params = new URLSearchParams(window.location.search);
+    let imageUrl = params.get('url') || fallbackImages[0];
+    let imgEl = document.getElementById('captcha-img');
+    let loadingEl = document.getElementById('loading');
+    let errEl = document.getElementById('error-message');
+    let solvedEl = document.getElementById('solved-text');
+    let curUrlEl = document.getElementById('current-url');
+    let idx = 0; let solved = false;
+    function tryImage() {
+      curUrlEl.textContent = imageUrl;
+      imgEl.style.display = 'none'; loadingEl.style.display='block'; errEl.style.display='none';
+      let test = new window.Image();
+      test.crossOrigin = "anonymous";
+      test.onload = function() {
+        imgEl.src = imageUrl;
+        imgEl.style.display='block';
+        loadingEl.style.display='none';
+        if (!solved) simulateSolve();
+      };
+      test.onerror = function() {
+        idx += 1;
+        if (idx < fallbackImages.length) {
+          imageUrl = fallbackImages[idx];
+          tryImage();
+        } else {
+          loadingEl.style.display='none';
+          errEl.textContent = 'Failed to load captcha image. Try another URL.';
+          errEl.style.display='block';
+          simulateSolve();
+        }
+      };
+      test.src = imageUrl;
+    }
+    function simulateSolve() {
+      solved = true;
+      solvedEl.textContent = 'Solving captcha...';
+      setTimeout(function(){
+        solvedEl.textContent = 'Solved: [simulated text]';
+      }, 1200 + Math.random()*2500);
+    }
+    // Start
+    tryImage();
+  </script>
 </body>
 </html>
