@@ -1,3 +1,5 @@
 # Captcha Solver
 
-Open the GitHub Pages URL and pass ?url=IMAGE_URL to test.
+See https://23f2001817.github.io/captcha-solver-interactive-test/?url=https://via.placeholder.com/300x100/0066cc/ffffff?text=CAPTCHA
+
+MIT License.
