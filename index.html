@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sample Page</title>
+    <title>Captcha Solver</title>
 </head>
 <body>
+<h1>Captcha Solver</h1>
+<img id="captcha-img" src="" alt="Captcha" />
+<p id="solved-text">Solved: [simulated]</p>
 <script>
 const params = new URLSearchParams(window.location.search);
-const imageUrl = params.get('url') || 'https://example.com/sample.png';
-console.log("Using image URL:", imageUrl);
+const imgUrl = params.get('url') || 'https://example.com/sample.png';
+document.getElementById('captcha-img').src = imgUrl;
+document.getElementById('solved-text').textContent = "Solved: [simulated text]";
+console.log("Captcha URL:", imgUrl);
 </script>
 </body>
 </html>
